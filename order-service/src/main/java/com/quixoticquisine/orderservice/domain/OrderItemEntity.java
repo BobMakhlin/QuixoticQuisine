@@ -23,10 +23,11 @@ public class OrderItemEntity {
     @UuidGenerator
     private UUID orderItemId;
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity orderEntity;
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private UUID productId;
+    @Column(nullable = false)
     private Integer amount;
 
     @Override

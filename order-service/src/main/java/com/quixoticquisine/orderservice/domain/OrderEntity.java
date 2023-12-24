@@ -18,6 +18,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "order")
 public class OrderEntity {
     @OneToMany(targetEntity = OrderItemEntity.class,
             cascade = ALL,
@@ -27,9 +28,12 @@ public class OrderEntity {
     @GeneratedValue
     @UuidGenerator
     private UUID id;
+    @Column(nullable = false)
     private UUID consumerId;
+    @Column(nullable = false)
     private UUID restaurantId;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatusEnum orderStatus;
 
     public void setOrderItems(Set<OrderItemEntity> orderItems) {
