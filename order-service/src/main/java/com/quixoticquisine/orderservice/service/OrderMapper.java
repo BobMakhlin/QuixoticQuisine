@@ -1,5 +1,6 @@
 package com.quixoticquisine.orderservice.service;
 
+import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
 import com.quixoticquisine.commoneventuatekit.RejectOrderCommand;
 import com.quixoticquisine.commoneventuatekit.ValidateConsumerCommand;
 import com.quixoticquisine.orderservice.domain.OrderEntity;
@@ -12,6 +13,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
@@ -21,9 +24,14 @@ public interface OrderMapper {
 
     OrderItemEntity orderItemToOrderItemEntity(OrderItem orderItem);
 
+    @Mapping(target = ".", source = "orderDetails")
     CreateOrderSagaData addOrderToCreateOrderSagaData(AddOrder order);
 
     ValidateConsumerCommand createOrderSagaDataToValidateConsumerCommand(CreateOrderSagaData data);
 
     RejectOrderCommand createOrderSagaDataToRejectOrderCommand(CreateOrderSagaData data);
+
+    CreateTicketCommand createOrderSagaDataToCreateTicketCommand(CreateOrderSagaData data);
+
+    List<CreateTicketCommand.TicketItem> orderItemsToTicketItems(List<OrderItem> orderItems);
 }
