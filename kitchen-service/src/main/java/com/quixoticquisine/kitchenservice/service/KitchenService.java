@@ -13,4 +13,6 @@ public interface KitchenService {
     UUID createTicket(CreateTicketCommand createTicketCommand);
 
     void rejectTicket(UUID ticketId);
+
+    void approveTicket(UUID ticketId);
 }

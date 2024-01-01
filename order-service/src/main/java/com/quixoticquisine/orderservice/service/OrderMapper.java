@@ -36,4 +36,6 @@ public interface OrderMapper {
     RejectTicketCommand createOrderSagaDataToRejectTicketCommand(CreateOrderSagaData createOrderSagaData);
 
     AuthorizeCardCommand createOrderSagaDataToAuthorizeCardCommand(CreateOrderSagaData createOrderSagaData);
+
+    ApproveTicketCommand createOrderSagaDataToApproveTicketCommand(CreateOrderSagaData createOrderSagaData);
 }

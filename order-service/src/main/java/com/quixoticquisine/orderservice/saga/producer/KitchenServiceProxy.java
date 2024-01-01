@@ -1,5 +1,6 @@
 package com.quixoticquisine.orderservice.saga.producer;
 
+import com.quixoticquisine.commoneventuatekit.ApproveTicketCommand;
 import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
 import com.quixoticquisine.commoneventuatekit.CreateTicketReply;
 import com.quixoticquisine.commoneventuatekit.RejectTicketCommand;
@@ -17,6 +18,11 @@ class KitchenServiceProxy {
             .build();
     public final CommandEndpoint<RejectTicketCommand> rejectTicket = CommandEndpointBuilder
             .forCommand(RejectTicketCommand.class)
+            .withChannel("kitchenService")
+            .withReply(Success.class)
+            .build();
+    public final CommandEndpoint<ApproveTicketCommand> approveTicket = CommandEndpointBuilder
+            .forCommand(ApproveTicketCommand.class)
             .withChannel("kitchenService")
             .withReply(Success.class)
             .build();

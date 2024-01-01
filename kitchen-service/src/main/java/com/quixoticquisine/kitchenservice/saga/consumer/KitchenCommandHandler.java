@@ -1,5 +1,6 @@
 package com.quixoticquisine.kitchenservice.saga.consumer;
 
+import com.quixoticquisine.commoneventuatekit.ApproveTicketCommand;
 import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
 import com.quixoticquisine.commoneventuatekit.CreateTicketReply;
 import com.quixoticquisine.commoneventuatekit.RejectTicketCommand;
@@ -26,6 +27,7 @@ public class KitchenCommandHandler {
                 .fromChannel("kitchenService")
                 .onMessage(CreateTicketCommand.class, this::createTicket)
                 .onMessage(RejectTicketCommand.class, this::rejectTicket)
+                .onMessage(ApproveTicketCommand.class, this::approveTicket)
                 .build();
     }
 
@@ -46,6 +48,18 @@ public class KitchenCommandHandler {
 
         try {
             kitchenService.rejectTicket(commandMessage.getCommand().getTicketId());
+            return withSuccess();
+        } catch (RuntimeException ex) {
+            log.error("error", ex);
+            return withFailure();
+        }
+    }
+
+    private Message approveTicket(CommandMessage<ApproveTicketCommand> commandMessage) {
+        log.info("approveTicket, ticketId: {}", commandMessage.getCommand().getTicketId());
+
+        try {
+            kitchenService.approveTicket(commandMessage.getCommand().getTicketId());
             return withSuccess();
         } catch (RuntimeException ex) {
             log.error("error", ex);

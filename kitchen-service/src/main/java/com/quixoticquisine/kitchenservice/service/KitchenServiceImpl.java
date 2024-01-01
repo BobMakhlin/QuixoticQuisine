@@ -32,4 +32,13 @@ public class KitchenServiceImpl implements KitchenService {
         ticketEntity.setTicketStatus(TicketStatusEnum.REJECTED);
         ticketRepository.saveAndFlush(ticketEntity);
     }
+
+    @Transactional
+    @Override
+    public void approveTicket(UUID ticketId) {
+        var ticketEntity = ticketRepository.findById(ticketId)
+                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+        ticketEntity.setTicketStatus(TicketStatusEnum.APPROVED);
+        ticketRepository.saveAndFlush(ticketEntity);
+    }
 }
