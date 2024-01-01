@@ -23,7 +23,7 @@ public class AccountingCommandHandler {
     }
 
     public Message authorizeCard(CommandMessage<AuthorizeCardCommand> commandMessage) {
-        log.info("authorizeCard: {}", commandMessage.getCommand());
+        log.info("authorizeCard, consumerId: {}", commandMessage.getCommand().getConsumerId());
 
         return withSuccess();
     }

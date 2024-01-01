@@ -27,7 +27,7 @@ public class ConsumerCommandHandler {
     }
 
     public Message validateConsumer(CommandMessage<ValidateConsumerCommand> commandMessage) {
-        log.info("validateConsumer {}", commandMessage.getCommand());
+        log.info("validateConsumer, consumerId: {}", commandMessage.getCommand().getConsumerId());
 
         if (consumerService.canCreateOrder(commandMessage.getCommand().getConsumerId())) {
             return withSuccess();

@@ -29,7 +29,7 @@ public class OrderCommandHandler {
     }
 
     public Message rejectOrder(CommandMessage<RejectOrderCommand> commandMessage) {
-        log.info("rejectOrder {}", commandMessage.getCommand());
+        log.info("rejectOrder, orderId: {}", commandMessage.getCommand().getOrderId());
 
         try {
             orderService.rejectOrder(commandMessage.getCommand().getOrderId());
@@ -40,7 +40,7 @@ public class OrderCommandHandler {
     }
 
     private Message approveOrder(CommandMessage<ApproveOrderCommand> commandMessage) {
-        log.info("approveOrder {}", commandMessage.getCommand());
+        log.info("approveOrder, orderId: {}", commandMessage.getCommand().getOrderId());
 
         try {
             orderService.approveOrder(commandMessage.getCommand().getOrderId());
