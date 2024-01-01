@@ -1,6 +1,5 @@
 package com.quixoticquisine.consumerservice.service;
 
-import com.quixoticquisine.consumerservice.domain.ConsumerEntity;
 import com.quixoticquisine.consumerservice.repository.ConsumerRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
