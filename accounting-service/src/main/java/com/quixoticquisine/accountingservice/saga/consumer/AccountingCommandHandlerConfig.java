@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class AccountingCommandHandlerConfig {
     @Bean
     public SagaCommandDispatcher accountingCommandHandlersDispatcher(AccountingCommandHandler accountingCommandHandler,
-                                                                  SagaCommandDispatcherFactory sagaCommandDispatcherFactory) {
+                                                                     SagaCommandDispatcherFactory sagaCommandDispatcherFactory) {
         return sagaCommandDispatcherFactory.make("accountingService", accountingCommandHandler.commandHandlers());
     }
 }
