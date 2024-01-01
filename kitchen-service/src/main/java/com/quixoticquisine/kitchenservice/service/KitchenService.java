@@ -12,7 +12,17 @@ public interface KitchenService {
      */
     UUID createTicket(CreateTicketCommand createTicketCommand);
 
+    /**
+     * Rejects a ticket.
+     *
+     * @throws com.quixoticquisine.common.exception.ItemNotFoundException If a ticket with the specified id was not found.
+     */
     void rejectTicket(UUID ticketId);
 
+    /**
+     * Approves a ticket.
+     *
+     * @throws com.quixoticquisine.common.exception.ItemNotFoundException If a ticket with the specified id was not found.
+     */
     void approveTicket(UUID ticketId);
 }

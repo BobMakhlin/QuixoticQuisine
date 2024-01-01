@@ -1,5 +1,6 @@
 package com.quixoticquisine.kitchenservice.service;
 
+import com.quixoticquisine.common.exception.ItemNotFoundException;
 import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
 import com.quixoticquisine.kitchenservice.domain.TicketStatusEnum;
 import com.quixoticquisine.kitchenservice.repository.TicketRepository;
@@ -28,7 +29,7 @@ public class KitchenServiceImpl implements KitchenService {
     @Override
     public void rejectTicket(UUID ticketId) {
         var ticketEntity = ticketRepository.findById(ticketId)
-                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+                .orElseThrow(() -> new ItemNotFoundException(ticketId));
         ticketEntity.setTicketStatus(TicketStatusEnum.REJECTED);
         ticketRepository.saveAndFlush(ticketEntity);
     }
@@ -37,7 +38,7 @@ public class KitchenServiceImpl implements KitchenService {
     @Override
     public void approveTicket(UUID ticketId) {
         var ticketEntity = ticketRepository.findById(ticketId)
-                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+                .orElseThrow(() -> new ItemNotFoundException(ticketId));
         ticketEntity.setTicketStatus(TicketStatusEnum.APPROVED);
         ticketRepository.saveAndFlush(ticketEntity);
     }

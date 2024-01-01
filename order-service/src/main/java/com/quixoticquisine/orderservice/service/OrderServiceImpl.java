@@ -1,5 +1,6 @@
 package com.quixoticquisine.orderservice.service;
 
+import com.quixoticquisine.common.exception.ItemNotFoundException;
 import com.quixoticquisine.orderservice.domain.OrderStatusEnum;
 import com.quixoticquisine.orderservice.model.AddOrder;
 import com.quixoticquisine.orderservice.model.Order;
@@ -40,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void rejectOrder(UUID orderId) {
         var orderEntity = orderRepository.findById(orderId)
-                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+                .orElseThrow(() -> new ItemNotFoundException(orderId));
         orderEntity.setOrderStatus(OrderStatusEnum.REJECTED);
         orderRepository.saveAndFlush(orderEntity);
     }
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void approveOrder(UUID orderId) {
         var orderEntity = orderRepository.findById(orderId)
-                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+                .orElseThrow(() -> new ItemNotFoundException(orderId));
         orderEntity.setOrderStatus(OrderStatusEnum.APPROVED);
         orderRepository.saveAndFlush(orderEntity);
     }
