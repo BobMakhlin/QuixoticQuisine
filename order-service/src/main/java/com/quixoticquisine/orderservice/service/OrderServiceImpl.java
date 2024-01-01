@@ -44,4 +44,13 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setOrderStatus(OrderStatusEnum.REJECTED);
         orderRepository.saveAndFlush(orderEntity);
     }
+
+    @Transactional
+    @Override
+    public void approveOrder(UUID orderId) {
+        var orderEntity = orderRepository.findById(orderId)
+                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+        orderEntity.setOrderStatus(OrderStatusEnum.APPROVED);
+        orderRepository.saveAndFlush(orderEntity);
+    }
 }

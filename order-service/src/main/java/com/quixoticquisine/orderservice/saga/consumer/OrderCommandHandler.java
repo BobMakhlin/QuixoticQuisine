@@ -1,5 +1,6 @@
 package com.quixoticquisine.orderservice.saga.consumer;
 
+import com.quixoticquisine.commoneventuatekit.ApproveOrderCommand;
 import com.quixoticquisine.commoneventuatekit.RejectOrderCommand;
 import com.quixoticquisine.orderservice.service.OrderService;
 import io.eventuate.tram.commands.consumer.CommandHandlers;
@@ -23,6 +24,7 @@ public class OrderCommandHandler {
         return SagaCommandHandlersBuilder
                 .fromChannel("orderService")
                 .onMessage(RejectOrderCommand.class, this::rejectOrder)
+                .onMessage(ApproveOrderCommand.class, this::approveOrder)
                 .build();
     }
 
@@ -32,7 +34,18 @@ public class OrderCommandHandler {
         try {
             orderService.rejectOrder(commandMessage.getCommand().getOrderId());
             return withSuccess();
-        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
+            return withFailure();
+        }
+    }
+
+    private Message approveOrder(CommandMessage<ApproveOrderCommand> commandMessage) {
+        log.info("approveOrder {}", commandMessage.getCommand());
+
+        try {
+            orderService.approveOrder(commandMessage.getCommand().getOrderId());
+            return withSuccess();
+        } catch (RuntimeException ex) {
             return withFailure();
         }
     }

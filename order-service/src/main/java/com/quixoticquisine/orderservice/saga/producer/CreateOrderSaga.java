@@ -29,6 +29,8 @@ public class CreateOrderSaga implements SimpleSaga<CreateOrderSagaData> {
                 .invokeParticipant(accountingServiceProxy.authorizeCard, orderMapper::createOrderSagaDataToAuthorizeCardCommand)
                 .step()
                 .invokeParticipant(kitchenServiceProxy.approveTicket, orderMapper::createOrderSagaDataToApproveTicketCommand)
+                .step()
+                .invokeParticipant(orderServiceProxy.approveOrder, orderMapper::createOrderSagaDataToApproveOrderCommand)
                 .build();
     }
 
