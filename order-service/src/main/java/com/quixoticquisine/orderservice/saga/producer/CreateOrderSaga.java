@@ -15,6 +15,7 @@ public class CreateOrderSaga implements SimpleSaga<CreateOrderSagaData> {
     CreateOrderSaga(ConsumerServiceProxy consumerServiceProxy,
                     OrderServiceProxy orderServiceProxy,
                     KitchenServiceProxy kitchenServiceProxy,
+                    AccountingServiceProxy accountingServiceProxy,
                     OrderMapper orderMapper) {
         sagaDefinition = step()
                 .withCompensation(orderServiceProxy.rejectOrder, orderMapper::createOrderSagaDataToRejectOrderCommand)
@@ -23,6 +24,9 @@ public class CreateOrderSaga implements SimpleSaga<CreateOrderSagaData> {
                 .step()
                 .invokeParticipant(kitchenServiceProxy.createTicket, orderMapper::createOrderSagaDataToCreateTicketCommand)
                 .onReply(CreateTicketReply.class, CreateOrderSagaData::handleCreateTicketReply)
+                .withCompensation(kitchenServiceProxy.rejectTicket, orderMapper::createOrderSagaDataToRejectTicketCommand)
+                .step()
+                .invokeParticipant(accountingServiceProxy.authorizeCard, orderMapper::createOrderSagaDataToAuthorizeCardCommand)
                 .build();
     }
 

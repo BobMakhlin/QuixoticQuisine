@@ -1,8 +1,6 @@
 package com.quixoticquisine.orderservice.service;
 
-import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
-import com.quixoticquisine.commoneventuatekit.RejectOrderCommand;
-import com.quixoticquisine.commoneventuatekit.ValidateConsumerCommand;
+import com.quixoticquisine.commoneventuatekit.*;
 import com.quixoticquisine.orderservice.domain.OrderEntity;
 import com.quixoticquisine.orderservice.domain.OrderItemEntity;
 import com.quixoticquisine.orderservice.model.AddOrder;
@@ -34,4 +32,8 @@ public interface OrderMapper {
     CreateTicketCommand createOrderSagaDataToCreateTicketCommand(CreateOrderSagaData data);
 
     List<CreateTicketCommand.TicketItem> orderItemsToTicketItems(List<OrderItem> orderItems);
+
+    RejectTicketCommand createOrderSagaDataToRejectTicketCommand(CreateOrderSagaData createOrderSagaData);
+
+    AuthorizeCardCommand createOrderSagaDataToAuthorizeCardCommand(CreateOrderSagaData createOrderSagaData);
 }

@@ -2,6 +2,7 @@ package com.quixoticquisine.kitchenservice.saga.consumer;
 
 import com.quixoticquisine.commoneventuatekit.CreateTicketCommand;
 import com.quixoticquisine.commoneventuatekit.CreateTicketReply;
+import com.quixoticquisine.commoneventuatekit.RejectTicketCommand;
 import com.quixoticquisine.kitchenservice.service.KitchenService;
 import io.eventuate.tram.commands.consumer.CommandHandlers;
 import io.eventuate.tram.commands.consumer.CommandMessage;
@@ -24,6 +25,7 @@ public class KitchenCommandHandler {
         return SagaCommandHandlersBuilder
                 .fromChannel("kitchenService")
                 .onMessage(CreateTicketCommand.class, this::createTicket)
+                .onMessage(RejectTicketCommand.class, this::rejectTicket)
                 .build();
     }
 
@@ -33,6 +35,18 @@ public class KitchenCommandHandler {
         try {
             var id = kitchenService.createTicket(commandMessage.getCommand());
             return withSuccess(new CreateTicketReply(id));
+        } catch (RuntimeException ex) {
+            log.error("error", ex);
+            return withFailure();
+        }
+    }
+
+    private Message rejectTicket(CommandMessage<RejectTicketCommand> commandMessage) {
+        log.info("rejectTicket, ticketId: {}", commandMessage.getCommand().getTicketId());
+
+        try {
+            kitchenService.rejectTicket(commandMessage.getCommand().getTicketId());
+            return withSuccess();
         } catch (RuntimeException ex) {
             log.error("error", ex);
             return withFailure();

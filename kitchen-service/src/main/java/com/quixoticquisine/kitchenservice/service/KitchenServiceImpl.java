@@ -23,4 +23,13 @@ public class KitchenServiceImpl implements KitchenService {
         var savedEntity = ticketRepository.saveAndFlush(ticketEntity);
         return savedEntity.getId();
     }
+
+    @Transactional
+    @Override
+    public void rejectTicket(UUID ticketId) {
+        var ticketEntity = ticketRepository.findById(ticketId)
+                .orElseThrow(IllegalArgumentException::new); // todo throw notfoundexception
+        ticketEntity.setTicketStatus(TicketStatusEnum.REJECTED);
+        ticketRepository.saveAndFlush(ticketEntity);
+    }
 }

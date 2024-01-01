@@ -11,4 +11,6 @@ public interface KitchenService {
      * @return ID of the created ticket.
      */
     UUID createTicket(CreateTicketCommand createTicketCommand);
+
+    void rejectTicket(UUID ticketId);
 }
